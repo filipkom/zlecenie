@@ -1,20 +1,15 @@
 {
-  "name": "zlecenia",
+  "name": "zlecenie-generator",
   "version": "1.0.0",
-  "main": "script.js",
+  "description": "Generator zleceń Excel",
+  "main": "start.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node start.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-"dependencies": {
-  "express": "^4.17.1",
-  "body-parser": "^1.19.0",
-  "cors": "^2.8.5",
-  "xlsx": "^0.17.0",
-  "exceljs": "^4.3.0"
-}
+  "dependencies": {
+    "express": "^4.17.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "exceljs": "^4.3.0"
+  }
 }

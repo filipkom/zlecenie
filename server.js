@@ -5,7 +5,6 @@ const ExcelJS = require('exceljs');
 const path = require('path');
 
 const app = express();
-const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -13,7 +12,7 @@ app.use(express.static('public'));
 
 app.post('/api/generuj-excel', async (req, res) => {
     const { nazwa } = req.body;
-
+    
     try {
         const workbook = new ExcelJS.Workbook();
         await workbook.xlsx.readFile(path.join(__dirname, 'public', 'szablon.xlsx'));
@@ -32,6 +31,4 @@ app.post('/api/generuj-excel', async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`Serwer działa na http://localhost:${port}`);
-});
+module.exports = app;
