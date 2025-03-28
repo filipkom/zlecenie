@@ -28,23 +28,26 @@ function generateExcelFromTemplate() {
         return;
     }
 
-    fetch("szablon.xlsx")
-        .then(response => response.arrayBuffer())
-        .then(data => {
-            const workbook = XLSX.read(data, { type: "array", cellStyles: true });
-            const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-
-            // Zachowaj oryginalny styl komórki A5
-            const originalStyle = worksheet["A5"].s;
-
-            // Wprowadź nazwę firmy do komórki A5, zachowując styl
-            worksheet["A5"] = { v: companyName, s: originalStyle };
-
-            // Zapisz zmodyfikowany plik
-            XLSX.writeFile(workbook, `Zlecenie_${companyName}.xlsx`, { cellStyles: true });
-        })
-        .catch(error => {
-            console.error("Błąd podczas wczytywania szablonu:", error);
-            alert("Wystąpił błąd podczas generowania pliku Excel.");
-        });
+    fetch('/api/generuj-excel', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nazwa: companyName }),
+    })
+    .then(response => response.blob())
+    .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `Zlecenie_${companyName}.xlsx`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+    .catch(error => {
+        console.error("Błąd podczas generowania pliku Excel:", error);
+        alert("Wystąpił błąd podczas generowania pliku Excel.");
+    });
 }
